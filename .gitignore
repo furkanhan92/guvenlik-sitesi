@@ -1,0 +1,6 @@
+# Gereksiz dosyalar (GitHub’a pushlanmasın)
+*.exe
+*.py
+*.bat
+*.ps1
+images/
