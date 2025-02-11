@@ -1,27 +1,25 @@
-from PIL import Image
 import os
+from PIL import Image
 
 # Resimlerin bulunduğu klasör
-input_folder = "D:/images"
-output_folder = "D:/images/webp"
+input_folder = r"D:\guvenlik-sitesi\images"
+output_folder = r"D:\guvenlik-sitesi\images\webp"
 
-# Çıktı klasörünü oluştur
-os.makedirs(output_folder, exist_ok=True)
+# Eğer output klasörü yoksa, oluşturuluyor
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
 
-# Klasördeki tüm dosyaları al
-for file_name in os.listdir(input_folder):
-    file_path = os.path.join(input_folder, file_name)
-    
-    # Sadece resim dosyalarını işleyelim
-    if file_name.lower().endswith(("png", "jpg", "jpeg")):
-        img = Image.open(file_path)
+# input klasöründeki dosyaları kontrol et
+for filename in os.listdir(input_folder):
+    if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+        # Dosya yolunu al
+        file_path = os.path.join(input_folder, filename)
         
-        # Yeni dosya adı
-        new_file_name = os.path.splitext(file_name)[0] + ".webp"
-        new_file_path = os.path.join(output_folder, new_file_name)
-        
-        # WebP olarak kaydet
-        img.save(new_file_path, "WEBP", quality=80)
-        print(f"✅ {file_name} → {new_file_name}")
+        # Görseli aç ve WebP formatına dönüştür
+        with Image.open(file_path) as img:
+            # Çıktı dosyasının yolu
+            output_path = os.path.join(output_folder, f"{os.path.splitext(filename)[0]}.webp")
+            # WebP olarak kaydet
+            img.save(output_path, "WEBP")
 
-print("\n🎉 Tüm resimler WebP formatına dönüştürüldü!")
+print("Tüm resimler WebP formatına dönüştürüldü!")
